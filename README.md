@@ -1,1 +1,2 @@
 # TechnicalKatta01
+**Option 1:**  Build a web app which has two pages, The first page shows a list of fields (three fields) to enter user input data as shown in the picture, upon submit of form via “Next” button, the data should be saved to a database (or to a local file) via a POST RESTful web service call. The “Next” button click would also take the user to second page. Using Retrieve button user should be able to retrieve the data saved in the database (or from the local file) via a GET REST Web Service Call and present it in the same page or in a new page.
