@@ -192,6 +192,11 @@ body {
 										request.onload = function() {
 											if (request.status >= 200 && request.status < 400) {
 
+												// Success!
+					                            var userId = request.responseText;
+
+												sessionStorage.setItem('userId', userId);
+
 												//Navigate to the Second Page	
 												window.location = "secondpage.html";
 
