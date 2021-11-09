@@ -123,8 +123,12 @@ body {
         
                 function ajax() {
                     var request = new XMLHttpRequest();
-                    request.open('GET', '/techkatta/users/fetch');
-        
+
+                    var userId = sessionStorage.getItem('userId');
+                    console.log("userId="+userId);
+
+                    request.open('GET', '/techkatta/users/'+userId);
+
                     request.setRequestHeader(
                         'Content-Type',
                         'application/json; charset=UTF-8'
