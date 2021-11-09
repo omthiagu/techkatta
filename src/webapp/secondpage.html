@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Second Page</title>
+<style>
+body {
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light",
+		"Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+	font-weight: 300;
+	background-color: white
+}
+
+#body-div {
+	text-align: center;
+	padding-bottom: 1%;
+	padding-top: 1%;
+	padding-left: 1%;
+	padding-right: 1%;
+	color: black;
+	border: 2px solid #37528B;
+	width: 30%;
+	min-width: 350px;
+	margin-top: 10%;
+	background-color: #94AAFF;
+}
+
+.center {
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#form-div {
+	text-align: left;
+	margin-top: auto;
+	margin-left: 20%;
+	margin-right: 20%;
+	margin-bottom: 5%;
+	padding: 1%;
+	width: 75%;
+	color: black;
+}
+
+.formInput {
+	display: block;
+	width: 100%;
+	height: 50px;
+	font-size: 20px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border: 4px solid white;
+	border-radius: 12px;
+	background-color: blue;
+	color: white;
+}
+
+.textInput{
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	width: 35%;
+	border: 2px solid #37528B;
+	font-size: 20px;
+	margin-top: 10%;
+}
+
+.labelInput{
+	margin-left: auto;
+	margin-right: auto;
+	width: 27%;
+	font-size: 20px;
+	text-align: right;
+}
+
+#cnTranslateButton {
+	margin-left: auto;
+    margin-right:auto;
+    text-align: center;
+    width:25%;
+    border: 4px solid white;
+    border-radius: 12px;
+    background-color: #4C6EB7;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+	cursor: pointer;
+}
+
+#submitButton {
+	margin-top:10%;
+	margin-left: 15%;
+	margin-right: 20%;
+	text-align: center;
+	width: 50%;
+	border: 4px solid white;
+	border-radius: 12px;
+	background-color: #4C6EB7;
+	font-size: 20px;
+	font-weight: bold;
+	color: white;
+	box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+	cursor: pointer;
+}
+/* Adding transformation when the button is active */
+.submitButton:active {
+	transform: scale(0.98);
+	/* Scaling button to 0.98 to its original size */
+	box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+	/* Lowering the shadow */
+}
+</style>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    var formEle = document.querySelector('form');
+                    formEle.length && formEle.addEventListener('submit', formSubmit);
+                });
+        
+                function ajax() {
+                    var request = new XMLHttpRequest();
+                    request.open('GET', '/techkatta/users/fetch');
+        
+                    request.setRequestHeader(
+                        'Content-Type',
+                        'application/json; charset=UTF-8'
+                    );
+        
+                    request.send();
+        
+                    request.onload = function() {
+                        if (request.status >= 200 && request.status < 400) {
+                            // Success!
+                            var response = request.responseText;
+                            
+                            const userObj = JSON.parse(response);
+                            console.log("firstName="+userObj.firstName);
+                            console.log("cityName="+userObj.cityName);
+                            console.log("dateOfJoining="+userObj.dateOfJoining);
+                                 
+                            document.getElementById("firstNameInput").value = userObj.firstName;
+                            document.getElementById("cityNameInput").value = userObj.cityName;
+
+                            var date = new Date(userObj.dateOfJoining);
+                            console.log("DOJ in DateFormat="+date);
+                            
+                            var formattedDate = date.toISOString().split('T')[0];
+                            console.log("DOJ in formattedDate="+formattedDate);
+                            
+                            document.getElementById("dateOfJoining").value = formattedDate;
+
+                            
+                        } else {
+                            // We reached our target server, but it returned an error
+                            var msgElem = document.getElementsByClassName('msg')[0];
+                            msgElem.innerHTML = 'Server Error';
+                        }
+                    };
+        
+                    request.onerror = function() {
+                        // There was a connection error of some sort
+                        var msgElem = document.getElementsByClassName('msg')[0];
+                            msgElem.innerHTML = 'Connection error';
+                    };
+                }
+                function formSubmit(event) {
+                	// Stop the form from submitting since we’re handling that with AJAX.
+                    event.preventDefault();
+                    ajax();
+                }
+            </script>
+</head>
+<body>
+	<div class="center" id="body-div">
+		<h1>Second Page</h1>
+		<div id="form-div" class="center">
+			<form class="form-horizontal" id="form" action="" method="POST">
+				<div class="form-group">
+					<label for="firstNameInput" class="labelInput">First Name:</label> 
+					<input id="firstNameInput" type="text" class="textInput" name="firstname"/>
+				</div>
+
+				<div class="form-group">
+					<label for="cityNameInput" class="labelInput">City Name</label> 
+					<input id="cityNameInput" type="text" class="textInput" name="cityname"/> 
+					<input id="cnTranslateButton" type="button" value="Translate"/>
+				</div>
+
+				<div class="form-group">
+					<label for="dateOfJoining" class="labelInput">Date of Joining</label> 
+					<input id="dateOfJoining" type="date" class="textInput" name="dateofjoining"/>
+				</div>
+
+				<div class="msg"></div>
+				<button type="submit" class="submitInput formInput" id="submitButton">Retrieve</button>
+			</form>
+		</div>
+	</div>
+
+</body>
+</html>
